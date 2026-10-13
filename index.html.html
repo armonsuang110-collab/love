@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff6fae">
+<title>จีบเธอเป็นแฟน 💗</title>
+<style>
+:root{--pink:#ff6fae;--deep:#d63384;--ink:#4d2940;--cream:#fff8fc;--lav:#f4e9ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at top left,#ffe0ee,transparent 40%),linear-gradient(145deg,#fff6fb,#f3edff);display:flex;align-items:center;justify-content:center;padding:16px}
+button{font:inherit;cursor:pointer;touch-action:manipulation}
+.app{width:min(100%,520px);background:#ffffffed;border:1px solid #fff;box-shadow:0 18px 55px #a34b7c22;border-radius:28px;overflow:hidden}
+.top{padding:20px 22px 16px;background:linear-gradient(120deg,#ff8dbd,#c9a5ff);color:white;position:relative}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{font-size:13px;letter-spacing:.08em;font-weight:800;opacity:.95}
+.iconbtn{border:1px solid #ffffff80;background:#ffffff30;color:white;border-radius:12px;padding:8px 11px}
+h1{font-size:clamp(25px,6vw,34px);line-height:1.15;margin:16px 0 6px}
+.subtitle{font-size:14px;opacity:.95}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px}
+.stat{background:#ffffff35;border:1px solid #ffffff50;border-radius:15px;padding:10px 12px}
+.stat small{display:block;font-size:11px;opacity:.9}
+.stat strong{font-size:18px}
+.progress{height:7px;border-radius:99px;background:#ffffff60;margin-top:14px;overflow:hidden}
+.progress>div{height:100%;width:0;background:white;border-radius:99px;transition:width .4s}
+main{padding:20px}
+.scene{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.avatar{width:86px;height:86px;flex:0 0 86px;display:grid;place-items:center;font-size:49px;border-radius:24px;background:linear-gradient(145deg,#ffe0ef,#eee1ff);box-shadow:inset 0 0 0 1px #fff}
+.scene h2{font-size:19px;margin:0 0 4px}
+.scene p{font-size:13px;margin:0;color:#8b6680}
+.story{background:var(--cream);border:1px solid #f8d9e9;border-radius:19px;padding:17px;line-height:1.7;font-size:15px;min-height:100px}
+.prompt{font-size:13px;font-weight:800;margin:18px 0 10px}
+.choices{display:grid;gap:10px}
+.choice{border:1px solid #f0d4e4;background:white;color:var(--ink);padding:13px 14px;border-radius:15px;text-align:left;transition:transform .15s,border-color .15s,background .15s}
+.choice:hover{border-color:var(--pink);background:#fff5fa;transform:translateY(-1px)}
+.choice:active{transform:scale(.99)}
+.choice .num{display:inline-grid;place-items:center;width:27px;height:27px;margin-right:9px;border-radius:9px;background:#ffe4f0;color:#bd3478;font-weight:800;font-size:12px}
+.feedback{font-size:13px;min-height:24px;margin-top:12px;color:#a0447a}
+.actions{display:flex;gap:9px;margin-top:12px}
+.secondary,.primary{flex:1;border:0;border-radius:14px;padding:12px;font-weight:800}
+.primary{background:linear-gradient(120deg,#ff72ad,#cb8cff);color:white;box-shadow:0 7px 16px #e77bbd30}
+.secondary{background:#f6edf5;color:#81506d}
+.footer{text-align:center;padding:0 20px 18px;font-size:11px;color:#a17d96}
+.hidden{display:none!important}
+.ending{text-align:center;padding:16px 6px}
+.ending .big{font-size:76px;animation:bob 1.6s ease-in-out infinite}
+.ending h2{font-size:25px;margin:8px 0}
+.ending p{line-height:1.8}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#4d2940;color:white;padding:11px 16px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.show{opacity:1}
+@media(max-width:380px){body{padding:8px}.app{border-radius:22px}.top{padding:17px}main{padding:15px}.avatar{width:70px;height:70px;flex-basis:70px;font-size:40px}.scene{gap:11px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="topline"><div class="brand">♡ LOVE QUEST • STORY GAME</div><button class="iconbtn" id="soundBtn" aria-label="เปิดหรือปิดเสียง">🔊 เสียง</button></div>
+    <h1>จีบเธอเป็นแฟน 💗</h1>
+    <div class="subtitle">ภารกิจพิชิตหัวใจ — คำตอบของคุณเปลี่ยนตอนจบได้</div>
+    <div class="stats">
+      <div class="stat"><small>คะแนนหัวใจ</small><strong id="heartScore">♡ 0 / 100</strong></div>
+      <div class="stat"><small>ความสนิท</small><strong id="bondScore">✨ 0 / 5</strong></div>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </header>
+  <main>
+    <section id="gameScreen">
+      <div class="scene">
+        <div class="avatar" id="avatar">🌸</div>
+        <div><h2 id="sceneTitle">บทที่ 1: เริ่มต้นความรู้สึก</h2><p id="sceneSub">สถานที่: หน้าโรงเรียน</p></div>
+      </div>
+      <div class="story" id="storyText">วันนี้คุณตัดสินใจว่าจะลองทำความรู้จักกับคนที่แอบชอบให้มากขึ้น…</div>
+      <div class="prompt" id="promptText">คุณจะทำอย่างไรดี?</div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="actions">
+        <button class="secondary" id="saveBtn">💾 บันทึกเกม</button>
+        <button class="secondary" id="resetBtn">↻ เริ่มใหม่</button>
+      </div>
+    </section>
+    <section id="endingScreen" class="ending hidden">
+      <div class="big" id="endingEmoji">💞</div>
+      <h2 id="endingTitle">จบแบบแฮปปี้</h2>
+      <p id="endingText"></p>
+      <p><strong id="finalScore"></strong></p>
+      <button class="primary" id="playAgainBtn">เล่นอีกครั้ง 💗</button>
+      <button class="secondary" id="endingSaveBtn" style="margin-top:9px;width:100%">💾 บันทึกผลการเล่น</button>
+    </section>
+  </main>
+  <div class="footer">เกมจำลองเพื่อความสนุก • เคารพความรู้สึกและคำตอบของกันและกันเสมอ ♡</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+  const SAVE_KEY = "loveQuestSave_v1";
+  const state = { step:0, hearts:0, bond:0, sound:true, history:[], ended:false };
+  const scenes = [
+    {title:"บทที่ 1: เริ่มต้นความรู้สึก",sub:"สถานที่: หน้าโรงเรียน",avatar:"🌸",
+     text:"คุณเห็นเขานั่งอยู่คนเดียวหลังเลิกเรียน นี่เป็นโอกาสดีที่จะเริ่มคุยกัน หัวใจเต้นแรงนิดหน่อย…",
+     prompt:"คุณจะเข้าไปทักอย่างไร?",
+     choices:[
+       {t:"ยิ้มให้แล้วพูดว่า “วันนี้เป็นไงบ้าง?”",h:15,b:1,fb:"เขายิ้มตอบ บรรยากาศเริ่มเป็นกันเอง 😊"},
+       {t:"แกล้งแซวเบา ๆ แล้วชวนคุย",h:10,b:1,fb:"เขาหัวเราะ ดูเหมือนจะเริ่มสนุกกับการคุย"},
+       {t:"เดินเข้าไปเงียบ ๆ แล้วรอให้เขาทักก่อน",h:3,b:0,fb:"คุณยังมีโอกาสคุยกัน ลองเปิดใจอีกนิดนะ"}
+     ]},
+    {title:"บทที่ 2: ค้นหาสิ่งที่ชอบ",sub:"สถานที่: ร้านน้ำใกล้โรงเรียน",avatar:"🧋",
+     text:"หลังจากคุยกันสักพัก คุณรู้ว่าเขาชอบดื่มชาและฟังเพลง คุณอยากทำให้เขารู้ว่าคุณตั้งใจฟัง",
+     prompt:"คุณจะเลือกทำอะไร?",
+     choices:[
+       {t:"ถามว่าเพลงแนวไหนที่เขาชอบ แล้วแลกเพลงกันฟัง",h:15,b:1,fb:"เขาดีใจที่คุณสนใจสิ่งที่เขาชอบ 🎧"},
+       {t:"ซื้อเครื่องดื่มให้โดยถามก่อนว่าอยากได้อะไร",h:12,b:1,fb:"เป็นความใส่ใจเล็ก ๆ ที่ทำให้เขายิ้ม"},
+       {t:"พูดถึงแต่เรื่องของตัวเอง",h:-3,b:0,fb:"บทสนทนาแผ่วลง ลองเปิดพื้นที่ให้เขาพูดด้วย"}
+     ]},
+    {title:"บทที่ 3: วันที่เขาเหนื่อย",sub:"สถานที่: ม้านั่งในสวน",avatar:"🌦️",
+     text:"วันนี้เขาดูเหนื่อยและเงียบกว่าปกติ เขาบอกว่ามีเรื่องให้คิดเยอะ คุณอยากอยู่ข้าง ๆ โดยไม่กดดัน",
+     prompt:"คุณจะตอบอย่างไร?",
+     choices:[
+       {t:"“ถ้าอยากเล่า เราพร้อมฟังนะ ไม่ต้องรีบก็ได้”",h:20,b:1,fb:"เขารู้สึกสบายใจที่คุณไม่เร่งรัด 💗"},
+       {t:"ชวนเดินเล่นเงียบ ๆ และถามว่าอยากพักไหม",h:14,b:1,fb:"การอยู่เป็นเพื่อนช่วยให้เขาผ่อนคลาย"},
+       {t:"บอกว่าอย่าคิดมาก แล้วเปลี่ยนเรื่องทันที",h:2,b:0,fb:"คุณตั้งใจช่วย แต่บางครั้งการรับฟังก็สำคัญ"}
+     ]},
+    {title:"บทที่ 4: ความรู้สึกที่ชัดเจน",sub:"สถานที่: ใต้ต้นไม้ยามเย็น",avatar:"🌇",
+     text:"คุณสองคนสนิทกันมากขึ้น คุณอยากบอกความรู้สึกอย่างจริงใจ แต่ก็อยากให้เขามีสิทธิ์ตัดสินใจเต็มที่",
+     prompt:"คุณจะพูดแบบไหน?",
+     choices:[
+       {t:"“เราชอบเธอนะ อยากลองคุยกันจริงจัง ถ้าเธอรู้สึกเหมือนกัน”",h:20,b:1,fb:"คุณพูดอย่างจริงใจและให้เกียรติความรู้สึกของเขา 💞"},
+       {t:"เขียนข้อความสั้น ๆ บอกความรู้สึก แล้วให้เวลาเขาคิด",h:15,b:1,fb:"เขาขอบคุณที่คุณซื่อสัตย์และไม่กดดัน"},
+       {t:"ขอคำตอบเดี๋ยวนี้และบอกว่าต้องตอบตกลง",h:-15,b:-1,fb:"การกดดันทำให้อีกฝ่ายอึดอัด ลองสื่อสารอย่างเคารพกัน"}
+     ]},
+    {title:"บทที่ 5: คำตอบจากหัวใจ",sub:"สถานที่: ทางเดินกลับบ้าน",avatar:"💌",
+     text:"ถึงเวลาฟังคำตอบ เขาบอกว่าขอบคุณที่คุณจริงใจและดูแลความรู้สึกของเขามาตลอด คุณพร้อมรับฟังคำตอบทุกแบบ",
+     prompt:"คุณจะปิดท้ายอย่างไร?",
+     choices:[
+       {t:"ยิ้มและบอกว่า “ไม่ว่าเธอจะตอบยังไง เราก็เคารพนะ”",h:15,b:1,fb:"ความจริงใจและการให้เกียรติคือสิ่งที่มีความหมาย"},
+       {t:"ชวนคุยกันต่ออย่างสบาย ๆ ไม่เร่งสถานะ",h:10,b:1,fb:"คุณให้เวลาความสัมพันธ์เติบโตอย่างเป็นธรรมชาติ"},
+       {t:"บอกว่าเขาต้องเป็นแฟนคุณเท่านั้น",h:-20,b:-2,fb:"ความรักต้องเกิดจากความสมัครใจของทั้งสองคน"}
+     ]}
+  ];
+
+  const $ = id => document.getElementById(id);
+  function sound(type="tap"){
+    if(!state.sound) return;
+    try{
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if(!AudioCtx) return;
+      const ctx = new AudioCtx(), osc = ctx.createOscillator(), gain = ctx.createGain();
+      const tones = {tap:520,good:740,bad:230,win:880};
+      osc.type = "sine"; osc.frequency.value = tones[type] || 520;
+      gain.gain.setValueAtTime(.0001,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.02);
+      gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.22);
+      osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime+.23);
+      osc.onended=()=>ctx.close();
+    }catch(e){}
+  }
+  function toast(msg){ const el=$("toast"); el.textContent=msg; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),1900); }
+  function updateStats(){
+    state.hearts=Math.max(0,Math.min(100,state.hearts));
+    state.bond=Math.max(0,Math.min(5,state.bond));
+    $("heartScore").textContent=`♡ ${state.hearts} / 100`;
+    $("bondScore").textContent=`✨ ${state.bond} / 5`;
+    $("progressBar").style.width=`${state.ended?100:(state.step/scenes.length)*100}%`;
+  }
+  function render(){
+    if(state.ended){showEnding();return;}
+    $("gameScreen").classList.remove("hidden");$("endingScreen").classList.add("hidden");
+    const s=scenes[state.step];
+    $("sceneTitle").textContent=s.title;$("sceneSub").textContent=s.sub;$("avatar").textContent=s.avatar;
+    $("storyText").textContent=s.text;$("promptText").textContent=s.prompt;$("feedback").textContent="";
+    const choices=$("choices");choices.innerHTML="";
+    s.choices.forEach((c,i)=>{
+      const btn=document.createElement("button");btn.className="choice";
+      const num=document.createElement("span");num.className="num";num.textContent=i+1;
+      btn.appendChild(num);btn.appendChild(document.createTextNode(c.t));
+      btn.addEventListener("click",()=>choose(i));choices.appendChild(btn);
+    });
+    updateStats();
+  }
+  function choose(i){
+    if(state.ended)return;
+    const c=scenes[state.step].choices[i];
+    state.hearts+=c.h;state.bond+=c.b;state.history.push({step:state.step,choice:i});
+    state.hearts=Math.max(0,Math.min(100,state.hearts));state.bond=Math.max(0,Math.min(5,state.bond));
+    $("feedback").textContent=c.fb;sound(c.h>=10?"good":c.h<0?"bad":"tap");
+    [...$("choices").children].forEach(b=>b.disabled=true);
+    updateStats();
+    const next=document.createElement("button");next.className="primary";next.style.width="100%";next.style.marginTop="10px";
+    next.textContent=state.step===scenes.length-1?"ดูฉากจบ 💌":"ไปต่อ →";
+    next.addEventListener("click",()=>{
+      state.step++;
+      if(state.step>=scenes.length){state.ended=true;showEnding();}else render();
+      save(false);
+    });
+    $("choices").appendChild(next);
+  }
+  function showEnding(){
+    $("gameScreen").classList.add("hidden");$("endingScreen").classList.remove("hidden");
+    let e,title,desc;
+    if(state.hearts>=75 && state.bond>=4){e="💑";title="ฉากจบ: เริ่มต้นเป็นแฟน";desc="เขายิ้มแล้วตอบว่า “เราก็อยากลองคบกับเธอเหมือนกันนะ” คุณทั้งคู่ตกลงเริ่มต้นความสัมพันธ์อย่างค่อยเป็นค่อยไป ดูแลและสื่อสารกันด้วยความจริงใจ";}
+    else if(state.hearts>=48){e="💞";title="ฉากจบ: เริ่มต้นคนพิเศษ";desc="เขาบอกว่ารู้สึกดีด้วยและอยากทำความรู้จักกันต่อไป คุณทั้งคู่ตกลงคุยกันให้มากขึ้น โดยไม่ต้องรีบกำหนดสถานะ";}
+    else if(state.hearts>=25){e="🌷";title="ฉากจบ: เพื่อนที่แสนดี";desc="เขาขอบคุณสำหรับความใส่ใจ และอยากเป็นเพื่อนที่ดีต่อกัน คุณเคารพคำตอบของเขา และยังมีโอกาสเรียนรู้ความสัมพันธ์ที่ดีในอนาคต";}
+    else{e="🌱";title="ฉากจบ: บทเรียนของหัวใจ";desc="ครั้งนี้ความรู้สึกอาจยังไม่ตรงกัน แต่คุณได้เรียนรู้ว่าความสัมพันธ์ต้องอาศัยเวลา การรับฟัง และความสมัครใจของทั้งสองฝ่าย";}
+    $("endingEmoji").textContent=e;$("endingTitle").textContent=title;$("endingText").textContent=desc;
+    $("finalScore").textContent=`คะแนนหัวใจ ${state.hearts}/100 • ความสนิท ${state.bond}/5`;
+    $("progressBar").style.width="100%";sound(state.hearts>=48?"win":"tap");
+    save(false);
+  }
+  function save(show=true){
+    const data={step:state.step,hearts:state.hearts,bond:state.bond,sound:state.sound,history:state.history,ended:state.ended};
+    try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));if(show)toast("บันทึกความคืบหน้าแล้ว 💾");}
+    catch(e){if(show)toast("เบราว์เซอร์ไม่อนุญาตให้บันทึกอัตโนมัติ");}
+  }
+  function load(){
+    try{
+      const raw=localStorage.getItem(SAVE_KEY);if(!raw)return false;
+      const d=JSON.parse(raw);
+      if(!d||!Array.isArray(d.history))return false;
+      state.step=Math.max(0,Math.min(scenes.length,d.step||0));
+      state.hearts=Number(d.hearts)||0;state.bond=Number(d.bond)||0;
+      state.sound=d.sound!==false;state.history=d.history;state.ended=!!d.ended;
+      if(state.step>=scenes.length)state.ended=true;
+      return true;
+    }catch(e){return false;}
+  }
+  function reset(){
+    if(!confirm("ต้องการเริ่มเกมใหม่หรือไม่? ความคืบหน้าเดิมจะถูกลบ"))return;
+    state.step=0;state.hearts=0;state.bond=0;state.history=[];state.ended=false;
+    try{localStorage.removeItem(SAVE_KEY)}catch(e){}
+    sound("tap");render();toast("เริ่มเกมใหม่แล้ว");
+  }
+  $("saveBtn").addEventListener("click",()=>{sound();save(true)});
+  $("endingSaveBtn").addEventListener("click",()=>{sound();save(true)});
+  $("resetBtn").addEventListener("click",reset);
+  $("playAgainBtn").addEventListener("click",()=>{
+    state.step=0;state.hearts=0;state.bond=0;state.history=[];state.ended=false;
+    try{localStorage.removeItem(SAVE_KEY)}catch(e){}
+    sound("tap");render();
+  });
+  $("soundBtn").addEventListener("click",()=>{
+    state.sound=!state.sound;$("soundBtn").textContent=state.sound?"🔊 เสียง":"🔇 ปิดเสียง";
+    if(state.sound)sound("tap");save(false);
+  });
+  if(load()){render();$("soundBtn").textContent=state.sound?"🔊 เสียง":"🔇 ปิดเสียง";toast("โหลดความคืบหน้าที่บันทึกไว้แล้ว");}
+  else render();
+})();
+</script>
+</body>
+</html>
